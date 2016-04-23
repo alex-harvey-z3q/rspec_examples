@@ -1,6 +1,15 @@
 require 'spec_helper'
 require_relative '../bin/example'
 
+describe '#process' do
+  it 'should correctly process the data file' do
+    allow_any_instance_of(Object).
+      to receive(:get_data).with('/some/file').
+      and_return({'times' => ['10h 3m', '2h 5m', '40m']})
+    expect { process('/some/file') }.to output("36180\n7500\n2400\n").to_stdout
+  end
+end
+
 describe '#get_data' do
   it 'should read YAML-formatted data from a file' do
     expected = {'times' => ['10h 3m', '2h 5m', '40m']}
