@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-##
-# Converts hours and minutes to seconds.
+require 'yaml'
+
+#
+# Converts hours and minutes as 'xh ym' to seconds.
 
 def hm2s(hm)
   if hm =~ /\d+h +\d+m/
@@ -18,7 +20,28 @@ def hm2s(hm)
   end
 end
 
+##
+# Get data from a YAML-formatted data file.
+
+def get_data(data_file)
+  begin
+    YAML::load_file(data_file)
+  rescue => e
+    raise "Error reading #{data_file}: #{e}"
+  end
+end
+
+##
+# Process a list of data from a file.
+
+def process(data_file)
+  data = get_data(data_file)
+  data['times'].each do |t|
+    puts hm2s(t)
+  end
+end
+
 if $0 == __FILE__
-  raise ArgumentError, "Usage: #{$0} xh ym" unless ARGV.length > 0
-  puts hm2s(ARGV.join(' '))
+  raise ArgumentError, "Usage: #{$0} <filename>" unless ARGV.length == 1
+  process(ARGV[0])
 end
