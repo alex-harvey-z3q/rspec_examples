@@ -24,9 +24,10 @@ end
 # Get data from a YAML-formatted data file.
 
 def get_data(data_file)
+  require 'pry'; binding.pry
   begin
     YAML::load_file(data_file)
-  rescue => e
+  rescue Psych::SyntaxError => e
     raise "Error reading #{data_file}: #{e}"
   end
 end

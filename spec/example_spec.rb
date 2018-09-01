@@ -17,7 +17,7 @@ describe '#get_data' do
   end
 
   it 'should error out if YAML is badly formatted' do
-    expect { get_data('spec/fixtures/bad.yml') }.to
+    expect ( get_data('spec/fixtures/bad.yml') ).to
       raise_error(RuntimeError, /Error reading spec\/fixtures\/bad.yml/)
   end
 end
